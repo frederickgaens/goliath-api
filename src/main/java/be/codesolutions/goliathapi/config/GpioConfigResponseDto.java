@@ -7,6 +7,7 @@ public class GpioConfigResponseDto {
     private Long id;
     private int address;
     private String name;
+    private String description;
     private Set<GpioConfig> parentProducers;
     private Set<GpioConfig> childConsumers;
 
@@ -32,6 +33,14 @@ public class GpioConfigResponseDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String descritption) {
+        this.description = descritption;
     }
 
     public Set<GpioConfig> getProducers() {
