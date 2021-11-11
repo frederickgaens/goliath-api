@@ -1,4 +1,4 @@
-package be.codesolutions.goliathapi.config;
+package be.codesolutions.goliathapi.config.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import be.codesolutions.goliathapi.config.GpioConfigMapper;
+import be.codesolutions.goliathapi.config.GpioConfigService;
+import be.codesolutions.goliathapi.config.model.GpioConfig;
+import be.codesolutions.goliathapi.config.model.GpioConfigResponseDto;
 
 @RestController
 @RequestMapping(value = "/gpio-configs/{gpioConfigId}",

@@ -1,4 +1,4 @@
-package be.codesolutions.goliathapi.config;
+package be.codesolutions.goliathapi.config.model;
 
 import java.util.Set;
 

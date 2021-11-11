@@ -1,4 +1,4 @@
-package be.codesolutions.goliathapi.config;
+package be.codesolutions.goliathapi.config.controller;
 
 import java.util.List;
 
@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import be.codesolutions.goliathapi.config.GpioConfigMapper;
+import be.codesolutions.goliathapi.config.GpioConfigService;
+import be.codesolutions.goliathapi.config.model.GpioConfig;
+import be.codesolutions.goliathapi.config.model.GpioConfigRequestDto;
+import be.codesolutions.goliathapi.config.model.GpioConfigResponseDto;
 
 @RestController
 @RequestMapping(value = "/gpio-configs",

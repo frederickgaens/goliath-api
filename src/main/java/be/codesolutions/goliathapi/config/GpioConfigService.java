@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import be.codesolutions.goliathapi.config.model.GpioConfig;
+
 @Service
 public class GpioConfigService {
 
