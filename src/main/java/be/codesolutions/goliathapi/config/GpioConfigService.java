@@ -29,6 +29,10 @@ public class GpioConfigService {
         return gpioConfigRepository.save(gpioConfig);
     }
 
+    public void delete(Long gpioConfigId) {
+        gpioConfigRepository.deleteById(gpioConfigId);
+    }
+
     public GpioConfig linkChildToParent(Long gpioConfigId, Long childConsumerId) {
         Optional<GpioConfig> parent = gpioConfigRepository.findById(gpioConfigId);
         Optional<GpioConfig> child = gpioConfigRepository.findById(childConsumerId);
