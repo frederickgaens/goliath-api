@@ -6,7 +6,6 @@ import be.codesolutions.goliathapi.location.model.GpioLocation;
 import be.codesolutions.goliathapi.location.model.GpioLocationRequestDto;
 import be.codesolutions.goliathapi.location.model.GpioLocationResponseDto;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
     produces = MediaType.APPLICATION_JSON_VALUE)
 public class GpioLocationController {
 
-  @Autowired
-  private GpioLocationMapper gpioLocationMapper;
+  private final GpioLocationMapper gpioLocationMapper;
+  private final GpioLocationService gpioLocationService;
 
-  @Autowired
-  private GpioLocationService gpioLocationService;
+  public GpioLocationController(
+      GpioLocationMapper gpioLocationMapper, GpioLocationService gpioLocationService) {
+    this.gpioLocationMapper = gpioLocationMapper;
+    this.gpioLocationService = gpioLocationService;
+  }
 
   @GetMapping
   public ResponseEntity<List<GpioLocationResponseDto>> get() {
@@ -37,7 +39,8 @@ public class GpioLocationController {
   public ResponseEntity<List<GpioLocationResponseDto>> addGpioLocations(
       @RequestBody List<GpioLocationRequestDto> gpioLocationDtoList
   ) {
-    List<GpioLocation> gpioLocationList = gpioLocationService.addAll(gpioLocationMapper.toEntityList(gpioLocationDtoList));
+    List<GpioLocation> gpioLocationList = gpioLocationService.addAll(
+        gpioLocationMapper.toEntityList(gpioLocationDtoList));
     return ResponseEntity.ok(gpioLocationMapper.toDtoList(gpioLocationList));
   }
 

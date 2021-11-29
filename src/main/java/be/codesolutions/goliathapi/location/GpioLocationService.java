@@ -4,14 +4,17 @@ import be.codesolutions.goliathapi.location.model.GpioLocation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GpioLocationService {
 
-  @Autowired
-  private GpioLocationRepository gpioLocationRepository;
+  private final GpioLocationRepository gpioLocationRepository;
+
+  public GpioLocationService(
+      GpioLocationRepository gpioLocationRepository) {
+    this.gpioLocationRepository = gpioLocationRepository;
+  }
 
   public List<GpioLocation> getAll() {
     List<GpioLocation> result = new ArrayList<>();
@@ -19,8 +22,8 @@ public class GpioLocationService {
     return result;
   }
 
-  public GpioLocation get(Long id) {
-    return gpioLocationRepository.findById(id).get();
+  public Optional<GpioLocation> get(Long id) {
+    return gpioLocationRepository.findById(id);
   }
 
   public List<GpioLocation> addAll(List<GpioLocation> gpioLocationList) {
@@ -35,7 +38,7 @@ public class GpioLocationService {
   }
 
   public Optional<GpioLocation> update(Long id, GpioLocation gpioLocation) {
-    if(gpioLocationRepository.existsById(id)) {
+    if (gpioLocationRepository.existsById(id)) {
       gpioLocation.setId(id);
       return Optional.of(gpioLocationRepository.save(gpioLocation));
     }

@@ -1,44 +1,49 @@
 package be.codesolutions.goliathapi.config.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import be.codesolutions.goliathapi.config.GpioConfigMapper;
+import be.codesolutions.goliathapi.config.GpioConfigService;
+import be.codesolutions.goliathapi.config.model.GpioConfig;
+import be.codesolutions.goliathapi.config.model.GpioConfigResponseDto;
+import java.util.Optional;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import be.codesolutions.goliathapi.config.GpioConfigMapper;
-import be.codesolutions.goliathapi.config.GpioConfigService;
-import be.codesolutions.goliathapi.config.model.GpioConfig;
-import be.codesolutions.goliathapi.config.model.GpioConfigResponseDto;
-
 @RestController
-@RequestMapping(value = "/gpio-configs/{gpioConfigId}",
+@RequestMapping(value = "/gpio-configs/{id}",
     consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE)
 public class GpioConfigIdController {
 
-    @Autowired
-    private GpioConfigService gpioConfigService;
-    @Autowired
-    private GpioConfigMapper gpioConfigMapper;
+  private final GpioConfigService gpioConfigService;
+  private final GpioConfigMapper gpioConfigMapper;
 
-    @GetMapping
-    public ResponseEntity<GpioConfigResponseDto> getGpioConfig(
-        @PathVariable(name = "gpioConfigId") Long gpioConfigId
-    ) {
-        GpioConfig gpioConfig = gpioConfigService.get(gpioConfigId);
-        return ResponseEntity.ok(gpioConfigMapper.toDto(gpioConfig));
-    }
-    
-    @DeleteMapping
-    public ResponseEntity<Void> deleteGpioCOnfig(
-        @PathVariable(name = "gpioConfigId") Long gpioConfigId
-    ) {
-        gpioConfigService.delete(gpioConfigId);
-        return ResponseEntity.ok().build();
-    }
+  public GpioConfigIdController(
+      GpioConfigService gpioConfigService, GpioConfigMapper gpioConfigMapper) {
+    this.gpioConfigService = gpioConfigService;
+    this.gpioConfigMapper = gpioConfigMapper;
+  }
+
+  @GetMapping
+  public ResponseEntity<GpioConfigResponseDto> get(
+      @PathVariable(name = "id") Long id
+  ) {
+    Optional<GpioConfig> gpioConfigOptional = gpioConfigService.get(id);
+
+    return gpioConfigOptional.map(
+            gpioConfig -> ResponseEntity.ok(gpioConfigMapper.toDto(gpioConfig)))
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Void> delete(
+      @PathVariable(name = "id") Long id
+  ) {
+    gpioConfigService.delete(id);
+    return ResponseEntity.ok().build();
+  }
 }

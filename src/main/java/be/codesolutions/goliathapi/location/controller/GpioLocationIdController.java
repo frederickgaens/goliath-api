@@ -6,7 +6,6 @@ import be.codesolutions.goliathapi.location.model.GpioLocation;
 import be.codesolutions.goliathapi.location.model.GpioLocationRequestDto;
 import be.codesolutions.goliathapi.location.model.GpioLocationResponseDto;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,18 +22,24 @@ import org.springframework.web.bind.annotation.RestController;
     produces = MediaType.APPLICATION_JSON_VALUE)
 public class GpioLocationIdController {
 
-  @Autowired
-  private GpioLocationMapper gpioLocationMapper;
+  private final GpioLocationMapper gpioLocationMapper;
+  private final GpioLocationService gpioLocationService;
 
-  @Autowired
-  private GpioLocationService gpioLocationService;
+  public GpioLocationIdController(
+      GpioLocationMapper gpioLocationMapper, GpioLocationService gpioLocationService) {
+    this.gpioLocationMapper = gpioLocationMapper;
+    this.gpioLocationService = gpioLocationService;
+  }
 
   @GetMapping
   public ResponseEntity<GpioLocationResponseDto> get(
       @PathVariable(name = "id") Long id
   ) {
-    GpioLocation gpioLocation = gpioLocationService.get(id);
-    return ResponseEntity.ok(gpioLocationMapper.toDto(gpioLocation));
+    Optional<GpioLocation> gpioLocationOptional = gpioLocationService.get(id);
+
+    return gpioLocationOptional.map(
+            gpioLocation -> ResponseEntity.ok(gpioLocationMapper.toDto(gpioLocation)))
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @PutMapping
@@ -44,10 +49,10 @@ public class GpioLocationIdController {
   ) {
     Optional<GpioLocation> gpioLocationOptional = gpioLocationService.update(id,
         gpioLocationMapper.toEntity(gpioLocationRequestDto));
-    if (gpioLocationOptional.isPresent()) {
-      return ResponseEntity.ok(gpioLocationMapper.toDto(gpioLocationOptional.get()));
-    }
-    return ResponseEntity.notFound().build();
+
+    return gpioLocationOptional.map(
+            gpioLocation -> ResponseEntity.ok(gpioLocationMapper.toDto(gpioLocation)))
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @DeleteMapping
