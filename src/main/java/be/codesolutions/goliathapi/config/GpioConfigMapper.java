@@ -17,4 +17,6 @@ public interface GpioConfigMapper {
 
     GpioConfig toEntity(GpioConfigRequestDto gpioConfigDto);
 
+    List<GpioConfig> toEntityList(List<GpioConfigRequestDto> gpioConfigRequestDtos);
+
 }

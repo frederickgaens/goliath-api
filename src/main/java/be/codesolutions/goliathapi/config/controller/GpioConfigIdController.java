@@ -30,7 +30,7 @@ public class GpioConfigIdController {
     public ResponseEntity<GpioConfigResponseDto> getGpioConfig(
         @PathVariable(name = "gpioConfigId") Long gpioConfigId
     ) {
-        GpioConfig gpioConfig = gpioConfigService.getGpioConfig(gpioConfigId);
+        GpioConfig gpioConfig = gpioConfigService.get(gpioConfigId);
         return ResponseEntity.ok(gpioConfigMapper.toDto(gpioConfig));
     }
     

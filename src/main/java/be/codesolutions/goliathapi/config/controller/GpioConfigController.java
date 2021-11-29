@@ -29,7 +29,6 @@ public class GpioConfigController {
     @Autowired
     private GpioConfigService gpioConfigService;
 
-
     @GetMapping
     public ResponseEntity<List<GpioConfigResponseDto>> get() {
         List<GpioConfig> gpioConfigs = gpioConfigService.getAll();
@@ -37,11 +36,11 @@ public class GpioConfigController {
     }
 
     @PostMapping
-    public ResponseEntity<GpioConfigResponseDto> addGpioConfig(
-        @RequestBody GpioConfigRequestDto gpioConfigDto
+    public ResponseEntity<List<GpioConfigResponseDto>> addAll(
+        @RequestBody List<GpioConfigRequestDto> gpioConfigRequestDtoList
     ) {
-        GpioConfig gpioConfig = gpioConfigService.add(gpioConfigMapper.toEntity(gpioConfigDto));
-        return ResponseEntity.ok().body(gpioConfigMapper.toDto(gpioConfig));
+        List<GpioConfig> gpioConfigList = gpioConfigService.addAll(gpioConfigMapper.toEntityList(gpioConfigRequestDtoList));
+        return ResponseEntity.ok().body(gpioConfigMapper.toDtoList(gpioConfigList));
     }
 
 }
