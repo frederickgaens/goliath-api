@@ -51,4 +51,12 @@ public class GpioConfigService {
       return Optional.empty();
     }
   }
+
+  public Optional<GpioConfig> update(Long id, GpioConfig gpioConfig) {
+    if (gpioConfigRepository.existsById(id)) {
+      gpioConfig.setId(id);
+      return Optional.of(gpioConfigRepository.save(gpioConfig));
+    }
+    return Optional.empty();
+  }
 }
