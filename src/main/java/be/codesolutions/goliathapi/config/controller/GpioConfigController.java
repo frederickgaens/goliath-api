@@ -20,27 +20,28 @@ import org.springframework.web.bind.annotation.RestController;
     produces = MediaType.APPLICATION_JSON_VALUE)
 public class GpioConfigController {
 
-    private final GpioConfigMapper gpioConfigMapper;
-    private final GpioConfigService gpioConfigService;
+  private final GpioConfigMapper gpioConfigMapper;
+  private final GpioConfigService gpioConfigService;
 
-    public GpioConfigController(
-        GpioConfigMapper gpioConfigMapper, GpioConfigService gpioConfigService) {
-        this.gpioConfigMapper = gpioConfigMapper;
-        this.gpioConfigService = gpioConfigService;
-    }
+  public GpioConfigController(
+      GpioConfigMapper gpioConfigMapper, GpioConfigService gpioConfigService) {
+    this.gpioConfigMapper = gpioConfigMapper;
+    this.gpioConfigService = gpioConfigService;
+  }
 
-    @GetMapping
-    public ResponseEntity<List<GpioConfigResponseDto>> get() {
-        List<GpioConfig> gpioConfigs = gpioConfigService.getAll();
-        return ResponseEntity.ok().body(gpioConfigMapper.toDtoList(gpioConfigs));
-    }
+  @GetMapping
+  public ResponseEntity<List<GpioConfigResponseDto>> get() {
+    List<GpioConfig> gpioConfigs = gpioConfigService.getAll();
+    return ResponseEntity.ok().body(gpioConfigMapper.toDtoList(gpioConfigs));
+  }
 
-    @PostMapping
-    public ResponseEntity<List<GpioConfigResponseDto>> addAll(
-        @RequestBody List<GpioConfigRequestDto> gpioConfigRequestDtoList
-    ) {
-        List<GpioConfig> gpioConfigList = gpioConfigService.addAll(gpioConfigMapper.toEntityList(gpioConfigRequestDtoList));
-        return ResponseEntity.ok().body(gpioConfigMapper.toDtoList(gpioConfigList));
-    }
+  @PostMapping
+  public ResponseEntity<List<GpioConfigResponseDto>> addAll(
+      @RequestBody List<GpioConfigRequestDto> gpioConfigRequestDtoList
+  ) {
+    List<GpioConfig> gpioConfigList = gpioConfigService.addAll(
+        gpioConfigMapper.toEntityList(gpioConfigRequestDtoList));
+    return ResponseEntity.ok().body(gpioConfigMapper.toDtoList(gpioConfigList));
+  }
 
 }

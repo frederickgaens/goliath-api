@@ -36,7 +36,7 @@ public class GpioLocationController {
   }
 
   @PostMapping
-  public ResponseEntity<List<GpioLocationResponseDto>> addGpioLocations(
+  public ResponseEntity<List<GpioLocationResponseDto>> addAll(
       @RequestBody List<GpioLocationRequestDto> gpioLocationDtoList
   ) {
     List<GpioLocation> gpioLocationList = gpioLocationService.addAll(
