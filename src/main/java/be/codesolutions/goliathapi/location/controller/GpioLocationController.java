@@ -8,6 +8,7 @@ import be.codesolutions.goliathapi.location.model.GpioLocationResponseDto;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,12 +37,18 @@ public class GpioLocationController {
   }
 
   @PostMapping
-  public ResponseEntity<List<GpioLocationResponseDto>> addAll(
+  public ResponseEntity<List<GpioLocationResponseDto>> add(
       @RequestBody List<GpioLocationRequestDto> gpioLocationDtoList
   ) {
     List<GpioLocation> gpioLocationList = gpioLocationService.addAll(
         gpioLocationMapper.toEntityList(gpioLocationDtoList));
     return ResponseEntity.ok(gpioLocationMapper.toDtoList(gpioLocationList));
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Void> delete() {
+    gpioLocationService.deleteAll();
+    return ResponseEntity.ok().build();
   }
 
 }

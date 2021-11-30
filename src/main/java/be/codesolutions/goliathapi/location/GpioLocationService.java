@@ -44,4 +44,8 @@ public class GpioLocationService {
     }
     return Optional.empty();
   }
+
+  public void deleteAll() {
+    gpioLocationRepository.deleteAll();
+  }
 }
