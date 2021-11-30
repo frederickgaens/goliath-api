@@ -59,4 +59,8 @@ public class GpioConfigService {
     }
     return Optional.empty();
   }
+
+  public void deleteAll() {
+    gpioConfigRepository.deleteAll();
+  }
 }

@@ -8,6 +8,7 @@ import be.codesolutions.goliathapi.config.model.GpioConfigResponseDto;
 import java.util.List;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,12 +37,18 @@ public class GpioConfigController {
   }
 
   @PostMapping
-  public ResponseEntity<List<GpioConfigResponseDto>> addAll(
+  public ResponseEntity<List<GpioConfigResponseDto>> add(
       @RequestBody List<GpioConfigRequestDto> gpioConfigRequestDtoList
   ) {
     List<GpioConfig> gpioConfigList = gpioConfigService.addAll(
         gpioConfigMapper.toEntityList(gpioConfigRequestDtoList));
     return ResponseEntity.ok().body(gpioConfigMapper.toDtoList(gpioConfigList));
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Void> delete() {
+    gpioConfigService.deleteAll();
+    return ResponseEntity.ok().build();
   }
 
 }
